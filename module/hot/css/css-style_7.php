@@ -26,7 +26,7 @@
 	}
 ?>
 <style type="text/css">
-	.wcmc-badge__hot_style_7 {
+	.badge__hot_style_7 {
 	    color: <?php echo $value['text_color'];?>;
 	    position: relative;
 	    box-sizing: border-box;
@@ -43,14 +43,14 @@
 	    opacity: 1;
 	}
 
-	.wcmc-badge__hot_style_7 div.wcbm-badge-css-s1 {
+	.badge__hot_style_7 div.wcbm-badge-css-s1 {
 	    width: 0;
 	    height: 0;
 	    <?php echo $border;?>
 	    z-index: 12;
 	}
 
-	.wcmc-badge__hot_style_7 span {
+	.badge__hot_style_7 span {
 	    font-size: 13px;
 	    font-weight: bold;
 	    line-height: 13px;

@@ -1,5 +1,5 @@
 <div class="box">
-    <div class="box-content">
+    <div class="box-content row m-1">
         <?php do_action('admin_badge_settings_tabs_general', $general); ?>
     </div>
 </div>

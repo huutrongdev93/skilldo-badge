@@ -41,5 +41,5 @@ $inputs = array(
 );
 
 foreach ($inputs as $input) {
-	echo _form( $input, (isset($item[$input['field']])) ? $item[$input['field']] : '' );
+	echo FormBuilder::render($input, (isset($item[$input['field']])) ? $item[$input['field']] : '' );
 }

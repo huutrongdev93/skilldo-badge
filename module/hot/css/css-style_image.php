@@ -5,10 +5,10 @@
 	if( $value['position'] == 'bottom-right' ) 	$position = 'bottom:0px; right: 0px;';
 ?>
 <style type="text/css">
-	.wcmc-badge__hot_style_image {
+	.badge__hot_style_image {
 		position: absolute; <?php echo $position;?>
 	}
-	.wcmc-badge__hot_style_image img {
+	.badge__hot_style_image img {
 		width: 50px;
 	}
 </style>

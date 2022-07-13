@@ -1,4 +1,4 @@
-.wcmc-badge__item { z-index: 1; }
+.badge__item { z-index: 1; }
 .product-slider-horizontal .list-item-product .item .product {
     overflow:hidden;
     position: relative;

@@ -5,7 +5,7 @@
 	if( $value['position'] == 'bottom-right' ) 	$position = 'bottom:0px; right: 8px;';
 ?>
 <style type="text/css">
-	.wcmc-badge__sale_style_4 {
+	.badge__sale_style_4 {
 		position: absolute;
 		<?php echo $position;?>
 		font-size: 18px;
@@ -21,9 +21,13 @@
 		color: <?php echo $value['text_color'];?>;
 		text-shadow: 0 1px 1px rgba(0,0,0,.3);
 	}
-	.wcmc-badge__sale_style_4 span {
+	.badge__sale_style_4 span {
 		display: block;
 		transform: rotate(-45deg);
 		opacity: .9;
+        font-size: 20px;
+        text-align: center;
+        margin-left: -5px;
+        margin-top: 13px;
 	}
 </style>

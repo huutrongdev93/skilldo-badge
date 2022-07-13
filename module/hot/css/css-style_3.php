@@ -5,7 +5,7 @@
 	if( $value['position'] == 'bottom-right' ) 	{ $position = 'bottom:20px; right: -70px;'; $rotate = '-45deg'; }
 ?>
 <style type="text/css">
-	.wcmc-badge__hot_style_3 {
+	.badge__hot_style_3 {
 		position: absolute;
 		<?php echo $position;?>
 		width: 200px;
@@ -15,7 +15,7 @@
 		background-color: <?php echo $value['bg_color'];?>;
 	}
 
-	.wcmc-badge__hot_style_3 span {
+	.badge__hot_style_3 span {
 		vertical-align: middle;
 		font-weight: bold;
 		text-transform: uppercase;

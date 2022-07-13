@@ -9,7 +9,7 @@ function _form_border_radius($param, $value = array()) {
 
     $value = array_merge($value_default, $value);
 
-    $output .= '<div class="stote_wg_item">';
+    $output .= '<div class="stote_wg_item row m-1">';
 
     $output .= '<div class="col-md-3">';
     $input = array('field' => $param->field.'[top-left]', 'label' =>'Top left', 'type' => 'number');

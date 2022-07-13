@@ -17,7 +17,6 @@
 		$position_text ='bottom: 15px; right: 0px; top:auto; left:auto;';
 		$border = 'border-bottom: 65px solid '.$value['bg_color'].';border-right: 65px solid transparent;';
 	}
-
 	if( $value['position'] == 'bottom-right' ) 	{ 
 		$position = 'bottom:0px; right:0px;top:auto; left:auto;';
 		$rotate = '-45deg'; 
@@ -26,14 +25,14 @@
 	}
 ?>
 <style type="text/css">
-	.wcmc-badge__sale_style_7 {
+	.badge__sale_style_7 {
 	    color: <?php echo $value['text_color'];?>;
 	    <?php echo $position;?>
 	}
-	.wcmc-badge__sale_style_7 div.wcbm-badge-css-s1 {
+    .badge__sale_style_7 div.wcbm-badge-css-s1 {
 	    <?php echo $border;?>
 	}
-	.wcmc-badge__sale_style_7 span {
+	.badge__sale_style_7 span {
 	    -webkit-transform: rotate(<?php echo $rotate;?>);
 	    -ms-transform: rotate(<?php echo $rotate;?>);
 	    transform: rotate(<?php echo $rotate;?>);

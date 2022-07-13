@@ -3,7 +3,7 @@
 	if( $value['position'] == 'top-right' ) 	$position = 'top:0px; right: 0px;';
 ?>
 <style type="text/css">
-	.wcmc-badge__sale_style_5 {
+	.badge__sale_style_5 {
 		position: absolute;
 		<?php echo $position;?>
 		line-height: 18px;
@@ -24,7 +24,7 @@
 		transform: translate3d(0, 0, 0);
 	}
 
-	.wcmc-badge__sale_style_5:after {
+	.badge__sale_style_5:after {
 		content: "";
 		width: 0;
 		height: 0;
@@ -36,12 +36,12 @@
 		left: 0;
 	}
 
-	.wcmc-badge__sale_style_5 {
+	.badge__sale_style_5 {
 		background: -webkit-linear-gradient(<?php echo $value['bg_color1'];?> 0%, <?php echo $value['bg_color2'];?> 100%);
 		background: -o-linear-gradient(<?php echo $value['bg_color1'];?> 0%, <?php echo $value['bg_color2'];?> 100%);
 		background: linear-gradient(<?php echo $value['bg_color1'];?> 0%, <?php echo $value['bg_color2'];?> 100%);
 	}
-	.wcmc-badge__sale_style_5:after {
+	.badge__sale_style_5:after {
 		border-top: 1.5rem solid <?php echo $value['bg_color2'];?>;
 	}
 </style>

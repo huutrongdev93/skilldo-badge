@@ -5,7 +5,7 @@
 	if( $value['position'] == 'bottom-right' ) 	$position = 'bottom:0px; right: 0px;';
 ?>
 <style type="text/css">
-	.wcmc-badge__hot_style_1 {
+	.badge__hot_style_1 {
 		position: absolute; <?php echo $position;?>
 	    line-height: 16px;
 	    background: <?php echo $value['bg_color'];?>;

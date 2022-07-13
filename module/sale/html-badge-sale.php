@@ -22,7 +22,7 @@
 				<hr style="margin: 5px 0;">
 				<div class="clearfix"> </div>
                 <?php foreach ($styles as $item_key => $item): ?>
-                    <div class="tabs-option <?php echo (!empty($item['active'])) ? 'active' : '';?>" id="tab-<?php echo $item_key;?>">
+                    <div class="tabs-option row <?php echo (!empty($item['active'])) ? 'active' : '';?>" id="tab-<?php echo $item_key;?>">
                         <?php include 'tabs/tab-'.$item_key.'.php';?>
                     </div>
                 <?php endforeach ?>

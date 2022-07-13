@@ -41,7 +41,7 @@
 
 ?>
 <style type="text/css">
-	.wcmc-badge__hot_style_6 {
+	.badge__hot_style_6 {
 
 		position: absolute;
 		<?php echo $position;?>

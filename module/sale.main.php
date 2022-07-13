@@ -12,7 +12,7 @@ if(!function_exists('admin_badge_sale_tab_general')) {
     }
     add_action( 'admin_badge_settings_tabs_general', 'admin_badge_sale_tab_general', 10, 1 );
 }
-class Badge_sale {
+class Badge_Sale {
     function __construct() {
         $general = Option::get('wcmc_general_setting');
         if(!empty($general['sale_hidden'])) {
@@ -22,8 +22,8 @@ class Badge_sale {
         }
     }
     static public function style($key = '') {
-        $sale_main_active    = option::get('wcmc_sale_style');
-        $sale_main_setting   = option::get('wcmc_sale_setting');
+        $sale_main_active    = Option::get('wcmc_sale_style');
+        $sale_main_setting   = Option::get('wcmc_sale_setting');
         $sale_style = array(
             'style_1' => array(
                 'bg_color'      => 'rgb(0, 173, 239)',
@@ -49,15 +49,15 @@ class Badge_sale {
             if($key == 'active') return $sale_style[$sale_main_active];
         }
         if(isset($sale_style[$key])) return $sale_style[$key];
-        return apply_filters( 'badge_sale_style', $sale_style );
+        return apply_filters('badge_sale_style', $sale_style );
     }
     static public function tab() {
-        plugin_get_include( BADGE_NAME, 'module/sale/html-badge-sale');
+        Plugin::partial( BADGE_NAME, 'module/sale/html-badge-sale');
     }
     static public function save($result, $data) {
-        option::update( 'wcmc_sale_style', Str::clear($data['style']) );
+        Option::update( 'wcmc_sale_style', Str::clear($data['style']) );
         unset($data['style']);
-        option::update( 'wcmc_sale_setting', $data);
+        Option::update( 'wcmc_sale_setting', $data);
         $result['status'] = 'success';
         $result['message'] = 'Lưu dữ liệu thành công';
         return $result;
@@ -77,10 +77,10 @@ class Badge_sale {
         include 'sale/style.sale.php';
     }
     public function cssCustom() {
-        $key    = option::get('wcmc_sale_style','style_1');
+        $key    = Option::get('wcmc_sale_style','style_1');
         $value  = static::style($key);
         include 'sale/css/css-'.$key.'.php';
     }
 }
-new Badge_sale();
+new Badge_Sale();
 

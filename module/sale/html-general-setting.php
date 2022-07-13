@@ -6,5 +6,5 @@ $inputs = array(
 );
 
 foreach ($inputs as $input) {
-	echo _form( $input, (isset($general[$input['field']])) ? $general[$input['field']] : '' );
+	echo FormBuilder::render( $input, (isset($general[$input['field']])) ? $general[$input['field']] : '' );
 }

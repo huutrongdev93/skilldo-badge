@@ -5,13 +5,13 @@
 	if( $value['position'] == 'bottom-right' ) 	$position = 'bottom:0px; right: 0px;';
 ?>
 <style type="text/css">
-	.wcmc-badge__hot_style_2 {
+	.badge__hot_style_2 {
 		border-radius: 5px;
 		font-size: 12px;
 		padding: 0px 10px;
 		color:<?php echo $value['text_color'];?>;
 	}
-	.wcmc-badge__hot_style_2 {
+	.badge__hot_style_2 {
 		position: absolute; <?php echo $position;?>
 		display: inline-block;
 		background-color: <?php echo $value['bg_color'];?>;
@@ -20,7 +20,7 @@
 		height: 36px;
 		line-height: 36px;
 	}
-	.wcmc-badge__hot_style_2::before {
+	.badge__hot_style_2::before {
 		position: absolute;
 		left: -15px;
 		top: 2px;
@@ -32,7 +32,7 @@
 		border-right: 16px solid <?php echo $value['bg_color'];?>;
 		border-bottom: 16px solid transparent;
 	}
-	.wcmc-badge__hot_style_2::after {
+	.badge__hot_style_2::after {
 		display: block;
 		content: '';
 		position: absolute;

@@ -41,11 +41,9 @@
 
 ?>
 <style type="text/css">
-	.wcmc-badge__sale_style_6 {
-
+	.badge__sale_style_6 {
 		position: absolute;
 		<?php echo $position;?>
-
 	    box-sizing: border-box;
 	    text-align: center;
 	    z-index: 10;
@@ -57,13 +55,8 @@
 	    height: 45px;
 	    line-height: 45px;
 
-	    <?php echo $border;?>
-
-	    padding-top: 0px;
-	    padding-bottom: 0px;
-	    padding-left: 0px;
-	    padding-right: 0px;
-	    font-size: 12px;
+	    <?php echo $border;?> padding: 0px;
+        font-size: 12px;
 
 	    -ms-transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
 	    -webkit-transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);

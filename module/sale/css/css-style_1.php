@@ -1,11 +1,11 @@
 <?php
-	if( $value['position'] == 'top-left' ) 		$position = 'top:0px; left: 0px;';
-	if( $value['position'] == 'top-right' ) 	$position = 'top:0px; right: 0px;';
-	if( $value['position'] == 'bottom-left' ) 	$position = 'bottom:0px; left: 0px;';
-	if( $value['position'] == 'bottom-right' ) 	$position = 'bottom:0px; right: 0px;';
+	if( $value['position'] == 'top-left' ) 		$position = 'top:10px; left: 10px;';
+	if( $value['position'] == 'top-right' ) 	$position = 'top:10px; right: 10px;';
+	if( $value['position'] == 'bottom-left' ) 	$position = 'bottom:10px; left: 10px;';
+	if( $value['position'] == 'bottom-right' ) 	$position = 'bottom:10px; right: 10px;';
 ?>
 <style type="text/css">
-	.wcmc-badge__sale_style_1 {
+	.badge__sale_style_1 {
 		position: absolute; <?php echo $position;?>
 	    line-height: 16px;
 	    background: <?php echo $value['bg_color'];?>;

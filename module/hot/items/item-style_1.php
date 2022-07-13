@@ -1,3 +1,3 @@
-<div class="wcmc-badge__item wcmc-badge__hot_style_1">
+<div class="badge__item badge__hot_style_1">
 	<span title="hot!">HOT</span>
 </div>

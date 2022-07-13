@@ -4,6 +4,6 @@ if( $value['text_hidden'] == 1 )
 else
 	$text = $value['text'];
 ?>
-<div class="wcmc-badge__item wcmc-badge__sale_style_1">
+<div class="badge__item badge__sale_style_1">
 	<span title="<?php echo $text;?>"><?php echo $text;?></span>
 </div>
