@@ -31,7 +31,7 @@ if(!function_exists('admin_badge_ajax_general_save')) {
 
 		$result['message'] 	= 'Lưu dữ liệu không thành công!';
 
-		$data =  InputBuilder::post();
+		$data =  Request::post();
 
 		if( have_posts($data) ) {
 			unset($data['action']);
@@ -54,10 +54,10 @@ if(!function_exists('admin_badge_ajax_object_save')) {
 
         $result['message'] 	= 'Lưu dữ liệu không thành công!';
 
-        if(InputBuilder::post()) {
+        if(Request::post()) {
 
-            $object_key = InputBuilder::Post('object_key');
-            $data       =  InputBuilder::post();
+            $object_key = Request::Post('object_key');
+            $data       =  Request::post();
             if(method_exists($object_key, 'save')) {
                 unset($data['action']);
                 unset($data['post_type']);

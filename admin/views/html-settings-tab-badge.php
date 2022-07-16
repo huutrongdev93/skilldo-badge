@@ -1,5 +1,5 @@
 <?php
-$section 	= (InputBuilder::get('section')) ? InputBuilder::get('section') : 'general';
+$section 	= (Request::get('section')) ? Request::get('section') : 'general';
 $tabs 		= admin_badge_settings_sub_tabs();
 ?>
 <div class="section-list">
