@@ -1,0 +1,23 @@
+.badge-style-1 {
+    position: absolute;
+    font-size: 12px;
+    line-height: 16px;
+    color: var(--badge-style1-textColor, #fff);
+    padding: 2px 12px;
+    background: var(--badge-style1-bgColor, #00ADEF);
+    font-weight: 700;
+    border-radius: var(--badge-style1-borderRadius, 4px);
+    border:1px solid var(--badge-style1-borderColor, var(--badge-style1-bgColor, #00ADEF));
+    &.top-left {
+        top:10px; left: 10px;
+    }
+    &.top-right {
+        top:10px; right: 10px;
+    }
+    &.bottom-left {
+        bottom:10px; left: 10px;
+    }
+    &.bottom-right {
+        bottom:10px; right: 10px;
+    }
+}

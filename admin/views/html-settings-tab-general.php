@@ -5,10 +5,13 @@
 </div>
 <script type="text/javascript">
 	$(function() {
-		$('#mainform').submit( function () {
+		let loading  = $('.loading');
+		$('#mainform').submit(function () {
+			loading.show();
 			let data = $(this).serializeJSON();
-			data.action = 'admin_badge_ajax_general_save';
-			$.post(base+'/ajax', data, function(data) {}, 'json').done(function( data ) {
+			data.action = 'ProductBadgeAjax::generalSave';
+			$.post(ajax, data, function(data) {}, 'json').done(function( data ) {
+				loading.hide();
 				show_message(data.message, data.status);
 			});
 			return false;

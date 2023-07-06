@@ -1,0 +1,31 @@
+.section-list {
+    ul {
+        overflow: hidden;
+        display: flex;
+        li {
+            a { display: block; margin-right: 10px; position: relative; }
+            &.active {
+                a { color:#000; }
+            }
+        }
+    }
+}
+.badge-style-wrapper {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap:2px;
+    .badge-style-item {
+        position: relative;
+        overflow: hidden;
+        height: 120px;
+        border: 2px solid #dfdfdf;
+        border-radius: 5px;
+        cursor:pointer;
+        &.active {
+            border: 2px solid #000;
+        }
+        &:hover {
+            box-shadow:5px 5px 10px #ccc;
+        }
+    }
+}

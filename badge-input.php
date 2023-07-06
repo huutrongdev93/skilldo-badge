@@ -1,5 +1,6 @@
 <?php
-function _form_border_radius($param, $value = array()) {
+function _form_border_radius($param, $value = array()): string
+{
 
     $value_default = array( 'top-left' => 0, 'top-right' => 0, 'bottom-right' => 0, 'bottom-left' => 0 );
 

@@ -1,0 +1,32 @@
+.section-list ul {
+  overflow: hidden;
+  display: flex;
+}
+.section-list ul li a {
+  display: block;
+  margin-right: 10px;
+  position: relative;
+}
+.section-list ul li.active a {
+  color: #000;
+}
+.badge-style-wrapper {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+}
+.badge-style-wrapper .badge-style-item {
+  position: relative;
+  overflow: hidden;
+  height: 120px;
+  border: 2px solid #dfdfdf;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.badge-style-wrapper .badge-style-item.active {
+  border: 2px solid #000;
+}
+.badge-style-wrapper .badge-style-item:hover {
+  box-shadow: 5px 5px 10px #ccc;
+}
+/*# sourceMappingURL=style.admin.css.map */

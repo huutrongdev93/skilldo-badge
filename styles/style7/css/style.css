@@ -1,0 +1,99 @@
+.badge-style-7 {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 34px;
+  overflow: hidden;
+  white-space: nowrap;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-align-items: center;
+  -moz-align-items: center;
+  -ms-align-items: center;
+  align-items: center;
+  -webkit-justify-content: center;
+  -moz-justify-content: center;
+  -ms-justify-content: center;
+  justify-content: center;
+  -ms-flex-pack: center;
+  background-color: var(--badge-style7-bgColor, #00ADEF);
+}
+.badge-style-7 span {
+  display: inline-block;
+  text-align: center;
+  width: 100%;
+  color: var(--badge-style7-textColor, #fff);
+  font-size: 14px;
+  font-weight: bold;
+  height: 34px;
+  line-height: 34px;
+  text-transform: uppercase;
+}
+.badge-style-7 span:nth-child(1) {
+  position: absolute;
+  left: -100%;
+}
+.badge-style-7.top {
+  top: 0;
+}
+.badge-style-7.bottom {
+  bottom: 0;
+}
+.badge-style-7.marquee span {
+  --effect: marquee;
+  -moz-animation: var(--effect) 4s linear infinite;
+  -webkit-animation: var(--effect) 4s linear infinite;
+  animation: var(--effect) 4s linear infinite;
+}
+.badge-style-7.marquee span:nth-child(1) {
+  -moz-animation: var(--effect) 4s 2s linear infinite;
+  -webkit-animation: var(--effect) 4s 2s linear infinite;
+  animation: var(--effect) 4s 2s linear infinite;
+}
+.badge-style-7.marqueeTop span {
+  --effect: marquee-top;
+  -moz-animation: var(--effect) 2s linear infinite;
+  -webkit-animation: var(--effect) 2s linear infinite;
+  animation: var(--effect) 2s linear infinite;
+}
+.badge-style-7.marqueeTop span:nth-child(1) {
+  -moz-animation: var(--effect) 2s 1s linear infinite;
+  -webkit-animation: var(--effect) 2s 1s linear infinite;
+  animation: var(--effect) 2s 1s linear infinite;
+}
+@keyframes marquee {
+  0% {
+    left: 0;
+    -moz-transform: translateX(-100%);
+    -ms-transform: translateX(-100%);
+    -webkit-transform: translateX(-100%);
+    transform: translateX(-100%);
+  }
+  100% {
+    left: 0;
+    -moz-transform: translateX(100%);
+    -ms-transform: translateX(100%);
+    -webkit-transform: translateX(100%);
+    transform: translateX(100%);
+  }
+}
+@keyframes marquee-top {
+  0% {
+    left: 0;
+    -moz-transform: translateY(-100%);
+    -ms-transform: translateY(-100%);
+    -webkit-transform: translateY(-100%);
+    transform: translateY(-100%);
+  }
+  100% {
+    left: 0;
+    -moz-transform: translateY(100%);
+    -ms-transform: translateY(100%);
+    -webkit-transform: translateY(100%);
+    transform: translateY(100%);
+  }
+}
+/*# sourceMappingURL=style.css.map */
