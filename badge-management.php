@@ -5,21 +5,52 @@ Plugin class    : badge_management
 Plugin uri      : http://sikido.vn
 Description     : Quản lý Huy hiệu cung cấp cho bạn huy hiệu và khả năng quản lý chúng cho các sản phẩm của cửa hàng của bạn.
 Author          : Nguyễn Hữu Trọng
-Version         : 3.0.1
+Version         : 3.1.0
 */
 const BADGE_NAME = 'badge-management';
+
 define('BADGE_PATH', Path::plugin(BADGE_NAME));
+
 class Badge_Management {
+
 	private string $name = 'Badge_Management';
-    static function style(): void
+
+    static function style(AssetPosition $header): void
     {
-        include 'assets/css/style.css';
+        if(file_exists(BADGE_PATH.'/assets/css/badge.main.build.css')) {
+            $header->add('badge-management', BADGE_PATH.'/assets/css/badge.main.build.css', ['minify' => true]);
+        }
+    }
+
+    static function buildCss(): void
+    {
+        $storage = Storage::make(BADGE_PATH.'/assets');
+
+        if($storage->fileExists('css/badge.main.build.css')) {
+            $storage->delete('css/badge.main.build.css');
+        }
+
+        $css = $storage->get('css/style.css');
+
+        $css .= ProductBadgeCollections::renderCss();
+
+        $css .= ProductBadgeSales::renderCss();
+
+        $storage->put('css/badge.main.build.css', $css);
     }
 }
-include 'badge-ajax.php';
-include 'badge-admin.php';
-include 'badge-input.php';
+
 include 'module/collections.php';
+
 include 'module/sales.php';
+
 include 'styles/styles.php';
-add_action('theme_custom_css', 'Badge_Management::style');
+
+if(Admin::is()) {
+
+    include 'badge-ajax.php';
+
+    include 'badge-admin.php';
+}
+
+add_action('theme_custom_assets', 'Badge_Management::style', 20, 2);

@@ -1,4 +1,7 @@
 <?php
+
+use SkillDo\Validate\Rule;
+
 class BadgeStyle7 {
     private string $style = 'style7';
 
@@ -9,29 +12,61 @@ class BadgeStyle7 {
             $text   = apply_filters('badge_style7_text', $text, $objectKey);
             $config = $this->configDefault($text);
         }
-        Plugin::partial(BADGE_NAME, 'styles/'. $this->style .'/html/html', $config);
+        Plugin::view(BADGE_NAME, 'styles/'. $this->style .'/html/html', $config);
     }
 
-    public function css(): void {
-        echo Template::less(file_get_contents(FCPATH.Path::plugin().BADGE_NAME.'/styles/'. $this->style .'/css/style.less'))->getCss();
+    /**
+     * @throws Less_Exception_Parser
+     * @throws Exception
+     */
+    public function css(): string {
+        return Template::less(file_get_contents(FCPATH.BADGE_PATH.'/styles/'. $this->style .'/css/style.less'))->getCss();
     }
 
-    public function form($config): string
+    public function form(\SkillDo\Form\Form $form, $config): \SkillDo\Form\Form
     {
-        $form = new FormBuilder();
-        $form->add('bgColor', 'color', ['label' => 'Màu nền', 'start' => 4], $config['bgColor']);
-        $form->add('textColor', 'color', ['label' => 'Màu chữ', 'start' => 4], $config['textColor']);
-        $form->add('text', 'text', ['label' => 'Dòng chữ 1', 'start' => 6], $config['text']);
-        $form->add('text2', 'text', ['label' => 'Dòng chữ 2', 'start' => 6], (isset($config['text2'])) ? $config['text2'] : '');
-        $form->add('position', 'select', ['label' => 'Vị Trí', 'options' => [
-            'top'    => 'Phía trên',
-            'bottom' => 'Phía dưới',
-        ], 'start' => 6], $config['position']);
-        $form->add('effect', 'select', ['label' => 'Hiệu ứng', 'options' => [
-            'marquee'    => 'Chữ chạy từ trái qua phải',
-            'marqueeTop' => 'Chữ chạy từ trên xuống',
-        ], 'start' => 6], $config['effect']);
-        return $form->html();
+        $form->color('bgColor', [
+            'label' => trans('badge.style.field.bgColor'),
+            'start' => 4,
+            'validations' => Rule::make()->notEmpty()->color()
+        ], $config['bgColor']);
+
+        $form->color('textColor', [
+            'label' => trans('badge.style.field.textColor'),
+            'start' => 4,
+            'validations' => Rule::make()->notEmpty()->color()
+        ], $config['textColor']);
+
+        $form->text('text', [
+            'label' => 'Dòng chữ 1',
+            'start' => 6,
+            'validations' => Rule::make()->notEmpty()
+        ], $config['text']);
+        $form->text('text2', [
+            'label' => 'Dòng chữ 2',
+            'start' => 6,
+            'validations' => Rule::make()->notEmpty()
+        ], (isset($config['text2'])) ? $config['text2'] : '');
+
+        $form->select2('position', [
+            'top'    => trans('badge.style.field.position.top'),
+            'bottom' => trans('badge.style.field.position.bottom'),
+        ], [
+            'label' => trans('badge.style.field.position'),
+            'start' => 6,
+            'validations' => Rule::make()->notEmpty()
+        ], $config['position']);
+
+        $form->select2('effect', [
+            'marquee'    => trans('badge.style.field.effect.marquee'),
+            'marqueeTop' => trans('badge.style.field.effect.marqueeTop'),
+        ], [
+            'label' => trans('badge.style.field.effect'),
+            'start' => 6,
+            'validations' => Rule::make()->notEmpty()
+        ], $config['effect']);
+
+        return $form;
     }
 
     public function configDefault($text = '') : array {
@@ -45,32 +80,15 @@ class BadgeStyle7 {
         ];
     }
 
-    public function save($request, $productBadge, $objectKey): array
+    public function save(\SkillDo\Http\Request $request, $productBadge, $objectKey): void
     {
-        if(!isset($request['bgColor'])) {
-            return ['status' => 'error', 'message' => 'Bạn chưa chọn màu nền'];
-        }
-        if(!isset($request['textColor'])) {
-            return ['status' => 'error', 'message' => 'Bạn chưa chọn màu chữ'];
-        }
-        if(empty($request['text'])) {
-            return ['status' => 'error', 'message' => 'Bạn chưa điền văn bản'];
-        }
-        if(empty($request['position'])) {
-            return ['status' => 'error', 'message' => 'Bạn chưa chọn vị trí hiển thị'];
-        }
-        if(empty($request['effect'])) {
-            return ['status' => 'error', 'message' => 'Bạn chưa chọn hiệu ứng hiển thị'];
-        }
-        $productBadge[$objectKey][$this->style]['bgColor'] = Str::clear($request['bgColor']);
-        $productBadge[$objectKey][$this->style]['textColor'] = Str::clear($request['textColor']);
-        $productBadge[$objectKey][$this->style]['text'] = Str::clear($request['text']);
-        $productBadge[$objectKey][$this->style]['text2'] = Str::clear($request['text2']);
-        $productBadge[$objectKey][$this->style]['position'] = Str::clear($request['position']);
-        $productBadge[$objectKey][$this->style]['effect'] = Str::clear($request['effect']);
+        $productBadge[$objectKey][$this->style]['bgColor'] = Str::clear($request->input('bgColor'));
+        $productBadge[$objectKey][$this->style]['textColor'] = Str::clear($request->input('textColor'));
+        $productBadge[$objectKey][$this->style]['text'] = Str::clear($request->input('text'));
+        $productBadge[$objectKey][$this->style]['text2'] = Str::clear($request->input('text2'));
+        $productBadge[$objectKey][$this->style]['position'] = Str::clear($request->input('position'));
+        $productBadge[$objectKey][$this->style]['effect'] = Str::clear($request->input('effect'));
 
         Option::update('product_badge', $productBadge);
-
-        return ['status' => 'success', 'message' => 'Lưu dữ liệu thành công'];
     }
 }

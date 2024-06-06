@@ -1,4 +1,7 @@
 <?php
+
+use SkillDo\Validate\Rule;
+
 class BadgeStyle2 {
     private string $style = 'style2';
 
@@ -9,28 +12,52 @@ class BadgeStyle2 {
             $text   = apply_filters('badge_style2_text', $text, $objectKey);
             $config = $this->configDefault($text);
         }
-        Plugin::partial(BADGE_NAME, 'styles/'. $this->style .'/html/html', $config);
+        Plugin::view(BADGE_NAME, 'styles/'. $this->style .'/html/html', $config);
     }
 
-    public function css(): void {
-        echo Template::less(file_get_contents(FCPATH.Path::plugin().BADGE_NAME.'/styles/'. $this->style .'/css/style.less'))->getCss();
+    /**
+     * @throws Less_Exception_Parser
+     * @throws Exception
+     */
+    public function css(): string {
+        return Template::less(file_get_contents(FCPATH.BADGE_PATH.'/styles/'. $this->style .'/css/style.less'))->getCss();
     }
 
-    public function form($config): string
+    public function form(\SkillDo\Form\Form $form, $config): \SkillDo\Form\Form
     {
-        $form = new FormBuilder();
-        $form->add('bgColor', 'color', ['label' => 'Màu nền', 'start' => 4], $config['bgColor']);
-        $form->add('textColor', 'color', ['label' => 'Màu chữ', 'start' => 4], $config['textColor']);
-        $form->add('text', 'text', ['label' => 'Chữ'], $config['text']);
-        $form->add('position', 'select', ['label' => 'Vị Trí', 'options' => [
-            'top-left'     => 'Phía trên bên trái',
-            'top-right'    => 'Phía trên bên phải',
-            'bottom-left'  => 'Phía dưới bên trái',
-            'bottom-right' => 'Phía dưới bên phải',
-        ]], $config['position']);
-        $form->add('borderRadius', 'border_radius', ['label' => 'Bo Tròn'], $config['borderRadius']);
+        $form->color('bgColor', [
+            'label' => trans('badge.style.field.bgColor'),
+            'start' => 4,
+            'validations' => Rule::make()->notEmpty()->color()
+        ], $config['bgColor']);
 
-        return $form->html();
+        $form->color('textColor', [
+            'label' => trans('badge.style.field.textColor'),
+            'start' => 4,
+            'validations' => Rule::make()->notEmpty()->color()
+        ], $config['textColor']);
+
+        $form->text('text', [
+            'label' => trans('badge.style.field.text'),
+            'validations' => Rule::make()->notEmpty()
+        ], $config['text']);
+
+        $form->select2('position', [
+            'top-left'     => trans('badge.style.field.position.topLeft'),
+            'top-right'    => trans('badge.style.field.position.topRight'),
+            'bottom-left'  => trans('badge.style.field.position.bottomLeft'),
+            'bottom-right' => trans('badge.style.field.position.bottomRight'),
+        ], [
+            'label' => trans('badge.style.field.position'),
+            'validations' => Rule::make()->notEmpty()
+        ], $config['position']);
+
+        $form->inputDimension('borderRadius', [
+            'label' => trans('badge.style.field.radius'),
+            'validations' => Rule::make()->notEmpty()
+        ], $config['borderRadius']);
+
+        return $form;
     }
 
     public function configDefault($text = '') : array {
@@ -40,39 +67,22 @@ class BadgeStyle2 {
             'text'          => $text,
             'position'      => 'top-right',
             'borderRadius'  => [
-                'top-left'      => 4,
-                'top-right'     => 4,
-                'bottom-left'   => 4,
-                'bottom-right'  => 4,
+                'top'    => 4,
+                'right'  => 4,
+                'left'   => 4,
+                'bottom' => 4,
             ]
         ];
     }
 
-    public function save($request, $productBadge, $objectKey): array
+    public function save(\SkillDo\Http\Request $request, $productBadge, $objectKey): void
     {
-        if(!isset($request['bgColor'])) {
-            return ['status' => 'error', 'message' => 'Bạn chưa chọn màu nền'];
-        }
-        if(!isset($request['textColor'])) {
-            return ['status' => 'error', 'message' => 'Bạn chưa chọn màu chữ'];
-        }
-        if(empty($request['text'])) {
-            return ['status' => 'error', 'message' => 'Bạn chưa điền văn bản'];
-        }
-        if(empty($request['position'])) {
-            return ['status' => 'error', 'message' => 'Bạn chưa chọn vị trí hiển thị'];
-        }
-        if(!have_posts($request['borderRadius'])) {
-            return ['status' => 'error', 'message' => 'Bạn chưa điền bo góc'];
-        }
-        $productBadge[$objectKey][$this->style]['bgColor'] = Str::clear($request['bgColor']);
-        $productBadge[$objectKey][$this->style]['textColor'] = Str::clear($request['textColor']);
-        $productBadge[$objectKey][$this->style]['text'] = Str::clear($request['text']);
-        $productBadge[$objectKey][$this->style]['position'] = Str::clear($request['position']);
-        $productBadge[$objectKey][$this->style]['borderRadius'] = $request['borderRadius'];
+        $productBadge[$objectKey][$this->style]['bgColor'] = Str::clear($request->input('bgColor'));
+        $productBadge[$objectKey][$this->style]['textColor'] = Str::clear($request->input('textColor'));
+        $productBadge[$objectKey][$this->style]['text'] = Str::clear($request->input('text'));
+        $productBadge[$objectKey][$this->style]['position'] = Str::clear($request->input('position'));
+        $productBadge[$objectKey][$this->style]['borderRadius'] = $request->input('borderRadius');
 
         Option::update('product_badge', $productBadge);
-
-        return ['status' => 'success', 'message' => 'Lưu dữ liệu thành công'];
     }
 }

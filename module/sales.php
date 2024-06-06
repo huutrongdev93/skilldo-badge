@@ -1,28 +1,37 @@
 <?php
+
+use SkillDo\Form\Form;
+
 class ProductBadgeSales {
+
     static function tabs($tabs) {
-        $tabs['sales'] 	= ['label' => 'Khuyến mãi', 'callback' => 'ProductBadgeSetting::pageStyle'];
+        $tabs['sales'] 	= ['label' => 'Khuyến mãi', 'description' => 'cấu hình nhãn hiệu cho sản phẩm khuyến mãi'];
         return $tabs;
     }
-    static function tabsGeneralForm( $general ): void {
-        echo FormBuilder::render([
-            'name' => 'sales',
+
+    static function generalForm(Form $form, $general): Form {
+
+        $form->switch('sales', [
             'label' => 'Bật / Tắt nhãn khuyến mãi',
-            'type'  => 'switch',
         ], (isset($general['sales'])) ? $general['sales'] : '');
+
+        return $form;
     }
+
     static function textDefault($text, $objectKey) {
         if($objectKey == 'sales') {
             $text = 'Sale 30%';
         }
         return $text;
     }
+
     static function textValueDefault($text, $objectKey, $style) {
         if($objectKey == 'sales') {
             $text = 'Sale -{percent}';
         }
         return $text;
     }
+
     static function render($object): void
     {
         $productBadge   = Option::get('product_badge');
@@ -50,22 +59,32 @@ class ProductBadgeSales {
             }
         }
     }
-    static function renderCss(): void
+
+    static function renderCss(): string
     {
-        $productBadge   = Option::get('product_badge');
+        $productBadge = Option::get('product_badge');
+
+        $css = '';
+
         if(!empty($productBadge['sales']['active'])) {
+
             $style = $productBadge['sales']['active'];
+
             $styleObject = ProductBadgeStyle::list($style);
+
             if(is_object($styleObject) && isset($productBadge['sales'][$style])) {
-                $styleObject->css($productBadge['sales'][$style]);
+
+                $css .= $styleObject->css($productBadge['sales'][$style]);
             }
         }
+
+        return $css;
     }
 }
 
 add_filter('admin_badge_settings_sub_tabs', 'ProductBadgeSales::tabs', 20);
 add_filter('badge_style_text', 'ProductBadgeSales::textDefault', 20, 2);
 add_filter('product_badge_text', 'ProductBadgeSales::textValueDefault', 20, 3);
-add_action('admin_badge_settings_tabs_general', 'ProductBadgeSales::tabsGeneralForm', 10, 1);
+add_filter('admin_badge_settings_form_general', 'ProductBadgeSales::generalForm', 10, 2);
 add_action('product_object_image', 'ProductBadgeSales::render', 20);
 add_action('theme_custom_css', 'ProductBadgeSales::renderCss', 20);

@@ -1,62 +1,55 @@
 <?php
+
+use JetBrains\PhpStorm\NoReturn;
+
 class ProductBadgeAjax {
-    static function generalSave($ci, $model): bool
+
+    #[NoReturn]
+    static function generalSave(\SkillDo\Http\Request $request, $model): void
     {
-        $result['status'] 	= 'error';
+        if($request->isMethod('post')) {
 
-        $result['message'] 	= 'Lưu dữ liệu không thành công!';
+            $data =  $request->input();
 
-        $data =  Request::post();
+            if( have_posts($data) ) {
 
-        if( have_posts($data) ) {
+                unset($data['action']);
 
-            unset($data['action']);
+                unset($data['post_type']);
 
-            unset($data['post_type']);
+                unset($data['cate_type']);
 
-            unset($data['cate_type']);
+                Option::update('product_badge_general_setting', $data );
 
-            Option::update( 'product_badge_general_setting', $data );
-
-            $result['status'] 	= 'success';
-
-            $result['message'] 	= 'Lưu dữ liệu thành công!';
+                response()->success(trans('ajax.save.success'));
+            }
         }
 
-        echo json_encode($result);
-
-        return true;
+        response()->error(trans('ajax.save.error'));
     }
-    static function styleLoad($ci, $model): bool
+
+    #[NoReturn]
+    static function styleLoad(\SkillDo\Http\Request $request, $model): void
     {
-        $result['status'] 	= 'error';
+        if($request->isMethod('post')) {
 
-        $result['message'] 	= 'Lưu dữ liệu không thành công!';
+            $objectKey = $request->input('objectId');
 
-        if(Request::post()) {
-
-            $objectKey = Request::post('objectId');
-
-            $style = Request::post('style');
+            $style = $request->input('style');
 
             if(empty($objectKey)) {
-                $result['message'] 	= 'Không có section để lây dữ liệu';
-                echo json_encode($result);
-                return true;
+                response()->error(trans('Không có section để lây dữ liệu'));
             }
 
             if(empty($style)) {
-                $result['message'] 	= 'Bạn chưa chọn Style';
-                echo json_encode($result);
-                return true;
+                response()->error(trans('Bạn chưa chọn Style'));
             }
 
             $styleObject = ProductBadgeStyle::list($style);
 
             if(empty($styleObject)) {
-                $result['message'] 	= 'Style bạn chọn không tồn tại';
-                echo json_encode($result);
-                return true;
+
+                response()->error(trans('Style bạn chọn không tồn tại'));
             }
 
             $productBadge = Option::get('product_badge');
@@ -69,67 +62,84 @@ class ProductBadgeAjax {
                 $styleConfig = $productBadge[$objectKey][$style];
             }
 
-            $result['form'] 	= base64_encode($styleObject->form($styleConfig));
+            $form = form();
 
-            $result['status'] 	= 'success';
+            $form->setFormId('badge_form_style_'.$objectKey);
 
-            $result['message'] 	= 'Lưu dữ liệu thành công!';
+            $form->setIsValid(true);
+
+            $form->setCallbackValidJs('badgeProductStyleSubmit');
+
+            $form = $styleObject->form($form, $styleConfig);
+
+            $result = Plugin::partial(BADGE_NAME, 'admin/views/style-form', [
+                'form' => $form,
+                'objectKey' => $objectKey
+            ]);
+
+            $result = base64_encode($result);
+
+            response()->success(trans('ajax.load.success'), $result);
         }
 
-        echo json_encode($result);
-
-        return true;
+        response()->error(trans('ajax.load.error'));
     }
-    static function objectSave( $ci, $model ): bool
+
+    #[NoReturn]
+    static function objectSave(\SkillDo\Http\Request $request, $model ): void
     {
+        if($request->isMethod('post')) {
 
-        $result['status'] 	= 'error';
+            $objectKey = $request->input('objectId');
 
-        $result['message'] 	= 'Lưu dữ liệu không thành công!';
-
-        if(Request::post()) {
-
-            $objectKey = Request::post('objectId');
-
-            $style = Request::post('styleId');
+            $style = $request->input('styleId');
 
             if(empty($objectKey)) {
-                $result['message'] 	= 'Không có section để lây dữ liệu';
-                echo json_encode($result);
-                return true;
+                response()->error(trans('Không có section để lây dữ liệu'));
             }
 
             if(empty($style)) {
-                $result['message'] 	= 'Bạn chưa chọn Style';
-                echo json_encode($result);
-                return true;
+                response()->error(trans('Bạn chưa chọn style'));
             }
 
             $styleObject = ProductBadgeStyle::list($style);
 
             if(empty($styleObject)) {
-                $result['message'] 	= 'Style bạn chọn không tồn tại';
-                echo json_encode($result);
-                return true;
+                response()->error(trans('Style bạn chọn không tồn tại'));
             }
 
             $productBadge = Option::get('product_badge');
 
             if(empty($productBadge)) $productBadge = [];
 
-            if(isset($productBadge[$objectKey])) {
+            if(!isset($productBadge[$objectKey])) {
                 $productBadge[$objectKey]['active'] = $style;
                 $productBadge[$objectKey][$style]   = $styleObject->configDefault();
             }
 
-            $result = $styleObject->save(Request::post(), $productBadge, $objectKey);
+            $form = form();
+
+            $form = $styleObject->form($form, $productBadge[$objectKey][$style] ?? []);
+
+            $validate = $request->validate($form);
+
+            if ($validate->fails()) {
+                response()->error($validate->errors());
+            }
+
+            $styleObject->save($request, $productBadge, $objectKey);
+
+            Badge_Management::buildCss();
+
+            response()->success(trans('ajax.save.success'));
         }
 
-        echo json_encode($result);
-
-        return true;
+        response()->error(trans('ajax.save.error'));
     }
 }
+
 Ajax::admin('ProductBadgeAjax::generalSave');
+
 Ajax::admin('ProductBadgeAjax::styleLoad');
+
 Ajax::admin('ProductBadgeAjax::objectSave');

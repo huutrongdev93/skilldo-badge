@@ -1,42 +1,58 @@
 <?php
-class ProductBadgeSetting {
+class ProductBadgeSystem
+{
+    static function register($tabs)
+    {
+        $tabs['badge'] = [
+            'label'         => trans('badge.title'),
+            'group'         => 'commerce',
+            'description'   => trans('badge.system.description'),
+            'callback'      => 'ProductBadgeSystem::render',
+            'icon'          => '<i class="fa-duotone fa-ribbon"></i>',
+            'form'          => false
+        ];
 
-    static function tabs($tabs) {
-        $tabs['badge'] 	= ['label' => 'Nhãn Hiệu', 	'callback' => 'ProductBadgeSetting::page'];
         return $tabs;
     }
 
-    static function tabsChild() {
-
-        $tabs['general'] 	= ['label' => 'Cấu hình chung', 'callback' => 'ProductBadgeSetting::pageGeneral'];
-
-        $collections = Prd::collections();
-
-        foreach ($collections as $collectionKey => $collection) {
-            $tabs[$collectionKey] 	= ['label' => $collection['name'], 'callback' => 'admin_page_badge_settings_tabs_general'];
-        }
-
-        return apply_filters('admin_badge_settings_sub_tabs', $tabs);
-    }
-
-    static function page($ci, $tab): void
-    {
-        Plugin::partial(BADGE_NAME, 'admin/views/html-settings-tab-badge');
-    }
-
-    static function pageGeneral($ci, $tab): void
+    static function render(): void
     {
         $general = Option::get('product_badge_general_setting');
-        Plugin::partial( BADGE_NAME, 'admin/views/html-settings-tab-general', ['general' => $general]);
-    }
 
-    static function pageStyle($ci, $tab): void
-    {
+        $form = form();
+
+        $form->setIsValid(true);
+
+        $form->setCallbackValidJs('badgeProductGeneralSubmit');
+
+        $form = apply_filters('admin_badge_settings_form_general', $form, $general);
+
+        Plugin::view(BADGE_NAME, 'admin/views/general', [
+            'title' => trans('badge.system.general'),
+            'description' => trans('badge.system.general.description'),
+            'form' => $form
+        ]);
+
+        $tabs = apply_filters('admin_badge_settings_sub_tabs', []);
+
         $styles = ProductBadgeStyle::list();
+
         $style  = Option::get('product_badge');
-        $active = (!empty($style[$tab]['active'])) ? $style[$tab]['active']  : null;
-        Plugin::partial( BADGE_NAME, 'admin/views/html-settings-tab-style', ['styles' => $styles, 'active' => $active, 'tab' => $tab]);
+
+        foreach ($tabs as $tabKey => $tab) {
+
+            $active = (!empty($style[$tabKey]['active'])) ? $style[$tabKey]['active']  : null;
+
+            Plugin::view(BADGE_NAME, 'admin/views/style', [
+                'styles' => $styles,
+                'active' => $active,
+                'tab'    => $tab,
+                'tabKey'    => $tabKey
+            ]);
+        }
+
+        Plugin::view(BADGE_NAME, 'admin/views/script');
     }
 }
 
-add_filter('admin_product_settings_tabs', 'ProductBadgeSetting::tabs');
+add_filter('skd_system_tab', 'ProductBadgeSystem::register', 50);
