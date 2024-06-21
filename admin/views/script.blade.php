@@ -11,7 +11,7 @@
 
 	    request.post(ajax, data).then(function(response) {
 
-		    SkilldoHelper.message.response(response);
+		    SkilldoMessage.response(response);
 
 		    loading.hide();
 	    });
@@ -60,7 +60,7 @@
 
 			    self.loading.hide();
 
-			    if(response.status == 'success') {
+			    if(response.status === 'success') {
 
 				    let form = decodeURIComponent(atob(response.data).split('').map(function (c) {
 					    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
@@ -73,7 +73,7 @@
 
 			    }
 			    else {
-				    SkilldoHelper.message.response(response);
+				    SkilldoMessage.response(response);
 			    }
 		    });
 
@@ -107,7 +107,7 @@
 
 		    request.post(ajax, data).then(function(response) {
 
-			    SkilldoHelper.message.response(response);
+			    SkilldoMessage.response(response);
 		    });
 	    }
 
@@ -134,7 +134,7 @@
 
 		$('.js_badge_style_main').each(function () {
 
-			let id= SkilldoHelper.uniqId();
+			let id= SkilldoUtil.uniqId();
 
 			badgeStyle[id] = new BadgeProductHandler($(this), id)
 		});
