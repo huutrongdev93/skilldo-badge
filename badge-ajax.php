@@ -112,9 +112,14 @@ class ProductBadgeAjax {
 
             if(empty($productBadge)) $productBadge = [];
 
-            if(!isset($productBadge[$objectKey])) {
+            if(!isset($productBadge[$objectKey]))
+            {
                 $productBadge[$objectKey]['active'] = $style;
                 $productBadge[$objectKey][$style]   = $styleObject->configDefault();
+            }
+            else
+            {
+                $productBadge[$objectKey]['active'] = $style;
             }
 
             $form = form();
