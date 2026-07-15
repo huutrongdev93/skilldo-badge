@@ -1,0 +1,16 @@
+{
+    "name": "Nhãn hiệu sản phẩm",
+    "class": "BadgeManagement",
+    "url": "https://sikido.vn",
+    "description": "Quản lý Huy hiệu cung cấp cho bạn huy hiệu và khả năng quản lý chúng cho các sản phẩm của cửa hàng của bạn.",
+    "author": "SKDSoftware Dev Team",
+    "version": "4.0.0",
+    "thumb" : "assets/images/thumb.png",
+    "autoload" : {
+        "alias" : "ProductBadge",
+        "psr-4" : {
+            "ProductBadge\\Modules" : "app\\Modules",
+            "ProductBadge\\Styles" : "app\\Styles"
+        }
+    }
+}
