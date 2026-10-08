@@ -26,6 +26,18 @@ class ProductBadgeStyle
         return static::$styles;
     }
 
+    /**
+     * Công tắc Bật / Tắt ở "Cấu hình chung". Chưa lưu lần nào (chưa có khóa) thì coi là bật.
+     */
+    static function enabled(string $key): bool
+    {
+        $general = \SkillDo\Cms\Support\Option::get('product_badge_general_setting');
+
+        if(!is_array($general) || !array_key_exists($key, $general)) return true;
+
+        return !empty($general[$key]) && $general[$key] !== 'off';
+    }
+
     static function get($key)
     {
         if(empty(static::$styles[$key])) return null;

@@ -40,7 +40,7 @@ class ProductBadgeSales {
     {
         $productBadge   = Option::get('product_badge');
 
-        if(!empty($object->price_sale) && !empty($productBadge['sales']['active'])) {
+        if(ProductBadgeStyle::enabled('sales') && !empty($object->price_sale) && !empty($productBadge['sales']['active'])) {
 
             $style = $productBadge['sales']['active'];
 
@@ -48,7 +48,7 @@ class ProductBadgeSales {
 
             if(is_object($styleObject) && isset($productBadge['sales'][$style])) {
 
-                $percent = ceil(($object->price != 0) ? ($object->price - $object->price_sale)*100/$object->price : 0);
+                $percent = round(($object->price != 0) ? ($object->price - $object->price_sale)*100/$object->price : 0);
 
                 if(!empty($productBadge['sales'][$style]['text'])) {
                     $productBadge['sales'][$style]['text'] = str_replace('{percent}', $percent.'%',$productBadge['sales'][$style]['text']);
@@ -70,7 +70,7 @@ class ProductBadgeSales {
 
         $css = '';
 
-        if(!empty($productBadge['sales']['active'])) {
+        if(ProductBadgeStyle::enabled('sales') && !empty($productBadge['sales']['active'])) {
 
             $style = $productBadge['sales']['active'];
 

@@ -4,7 +4,7 @@ return [
     'field.borderColor' => 'Màu viền',
     'field.textColor' => 'Màu chữ',
     'field.text' => 'Chữ',
-    'field.position' => 'Vị tTrí hiển thị',
+    'field.position' => 'Vị trí hiển thị',
     'field.position.topLeft' => 'Phía trên bên trái',
     'field.position.topRight' => 'Phía trên bên phải',
     'field.position.bottomLeft' => 'Phía dưới bên trái',

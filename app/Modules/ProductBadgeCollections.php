@@ -56,7 +56,7 @@ class ProductBadgeCollections {
 
         foreach ($collections as $collectionKey => $collection)
         {
-            if(!empty($object->{$collectionKey}) && !empty($productBadge[$collectionKey]['active']))
+            if(ProductBadgeStyle::enabled($collectionKey) && !empty($object->{$collectionKey}) && !empty($productBadge[$collectionKey]['active']))
             {
                 $style = $productBadge[$collectionKey]['active'];
 
@@ -80,7 +80,7 @@ class ProductBadgeCollections {
 
         foreach ($collections as $collectionKey => $collection) {
 
-            if(!empty($productBadge[$collectionKey]['active'])) {
+            if(ProductBadgeStyle::enabled($collectionKey) && !empty($productBadge[$collectionKey]['active'])) {
 
                 $style = $productBadge[$collectionKey]['active'];
 
